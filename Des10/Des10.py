@@ -3,6 +3,7 @@ lines = f.readlines()
 c = 0
 x = 1
 
+
 sum1 = 0
 drawing = ""
 def incrementCycleTask1():
