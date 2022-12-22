@@ -26,6 +26,7 @@ def isPossiblyBeacon(x, y):
     return True
 
 count = 0
+
 for p in points:
     print("p: ", p)
     for i in range(-p.dist -1, p.dist + 1 + 1):

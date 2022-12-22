@@ -1,4 +1,4 @@
-f = open("Des11/input2.txt", "r")
+f = open("Des11/input.txt", "r")
 lines = f.readlines()
 
 monkies = []
@@ -11,6 +11,14 @@ for j in range((len(lines) + 1)//7):
     true = int(lines[i+4].strip()[-1])
     false = int(lines[i+5].strip()[-1])
     monkies.append([monkeyNum, items, operation,test,true,false])
+
+def getCommonDivisible():
+    num = 1
+    for m in monkies:
+        num = num*m[3]
+    return num
+
+commonD = getCommonDivisible()
 
 def doOperation(op, num):
     symbol = op.split()[0]
@@ -27,17 +35,20 @@ inspect = [0 for i in range(8)]
 def playRound():
     for i in range(len(monkies)):
         monkey = monkies[i]
-        print("monkey ", i)
+        # print("monkey ", i)
 
         while (len(monkey[1]) > 0):
             item = monkey[1][0]
             inspect[i] += 1
             altItem = doOperation(monkey[2], item)
-            # altItem = altItem//3
-            monkey[1][0] = altItem
+
             if(altItem%monkey[3] == 0):
+                altItem = altItem%commonD
+
                 moveItem(i,monkey[4],altItem)
             else:
+                altItem = altItem%commonD
+
                 moveItem(i,monkey[5],altItem)
 
 
@@ -51,8 +62,8 @@ def moveItem(f, t,item):
 
 
 print(monkies)
-for i in range(1000):
-    print("round: ",i )
+for i in range(10000):
+    # print("round: ",i )
     playRound()
 print(inspect)
 inspect.sort()
