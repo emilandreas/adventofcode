@@ -301,7 +301,7 @@ void task2(){
         }
     }
 
-    // find all inside points, and add them to isInside
+    // find all inside points expanding from the seed list
     for(auto & s: searchSeeds){
         populateInside(s);
     }
