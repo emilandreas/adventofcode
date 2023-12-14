@@ -11,34 +11,34 @@
 #include <numeric>
 #include <ranges>
 struct Galaxy {
-    size_t x;
-    size_t y;
-    size_t id;
+    uint64_t x;
+    uint64_t y;
+    uint64_t id;
 };
 
-bool isEmptyCol(size_t y, std::vector<std::string> v){
+bool isEmptyCol(uint64_t y, std::vector<std::string> v){
     int count = 0;
     for(auto&l : v){
         if(l[y] == '#') return false;
     }
     return true;
 }
-bool isEmptyRow(size_t x, std::vector<std::string> v){
+bool isEmptyRow(uint64_t x, std::vector<std::string> v){
     return !v[x].contains('#');
 }
 
-int64_t countEmptyRows(size_t x, size_t y, std::vector<std::string> v){
-    size_t start = std::min(x, y)+1;
-    size_t end = std::max(x,y);
+int64_t countEmptyRows(uint64_t x, uint64_t y, std::vector<std::string> v){
+    uint64_t start = std::min(x, y)+1;
+    uint64_t end = std::max(x,y);
     int count = 0;
     for(int i = start; i < end; i++){
         if(isEmptyRow(i, v)) count++;
     }
     return count;
 }
-int64_t countEmptyCols(size_t x, size_t y, std::vector<std::string> v){
-    size_t start = std::min(x, y)+1;
-    size_t end = std::max(x,y);
+int64_t countEmptyCols(uint64_t x, uint64_t y, std::vector<std::string> v){
+    uint64_t start = std::min(x, y)+1;
+    uint64_t end = std::max(x,y);
     int count = 0;
     for(int i = start; i < end; i++){
         if(isEmptyCol(i, v)) count++;
@@ -49,7 +49,7 @@ int64_t countEmptyCols(size_t x, size_t y, std::vector<std::string> v){
 int64_t getDist(Galaxy a, Galaxy b, std::vector<std::string> v){
     auto emptyRows = countEmptyRows(a.x, b.x, v);
     auto emptyCols = countEmptyCols(a.y, b.y, v);
-    return abs((int)a.x-(int)b.x) + abs((int)a.y-(int)b.y) + (1000000-1)*(emptyRows + emptyCols);
+    return abs((int64_t)a.x-(int64_t)b.x) + abs((int64_t)a.y-(int64_t)b.y) + (int64_t)(1000000-1)*(emptyRows + emptyCols);
 }
 
 
@@ -57,7 +57,7 @@ int64_t getDist(Galaxy a, Galaxy b, std::vector<std::string> v){
 std::vector<Galaxy> galaxies{};
 
 void expand(std::vector<std::string> &v){
-    for(size_t i = 0; i < v.size(); i++){
+    for(uint64_t i = 0; i < v.size(); i++){
         for(int n = 0; n < 1000000; n++){
                         if(isEmptyRow(i, v)){
                 v.insert(v.begin() + (int)i, v[i]);
@@ -67,7 +67,7 @@ void expand(std::vector<std::string> &v){
 
 
     }
-    for(size_t j = 0; j < v[0].size(); j++){
+    for(uint64_t j = 0; j < v[0].size(); j++){
         if(isEmptyCol(j, v)){
             for(int n = 0; n < 1000000; n++){
 
@@ -82,12 +82,12 @@ void expand(std::vector<std::string> &v){
 
 // void task1(){
 //     auto space = readFile("input.txt");
-//     size_t x = 0;
-//     size_t ngalaxy = 0;
+//     uint64_t x = 0;
+//     uint64_t ngalaxy = 0;
 //     // expand(space);
 
 //     for(auto &l: space){
-//         size_t y= 0;
+//         uint64_t y= 0;
 //         for(auto &c: l){
 //             if(c == '#')
 //                 galaxies.push_back(Galaxy{x, y, ngalaxy++});
@@ -111,12 +111,12 @@ void expand(std::vector<std::string> &v){
 
 void task2(){
     auto space = readFile("input.txt");
-    size_t x = 0;
-    size_t ngalaxy = 0;
+    uint64_t x = 0;
+    uint64_t ngalaxy = 0;
     // expand(space);
 
     for(auto &l: space){
-        size_t y= 0;
+        uint64_t y= 0;
         for(auto &c: l){
             if(c == '#')
                 galaxies.push_back(Galaxy{x, y, ngalaxy++});
@@ -126,9 +126,9 @@ void task2(){
     }
 
 
-    size_t dist = 0;
+    uint64_t dist = 0;
     for (int i = 0; i < galaxies.size() - 1; i++){
-        std::cout << "Galaxy: " << i << std::endl;
+        std::cout << "Galaxy: " << i << " " << dist<< std::endl;
         Galaxy a = galaxies[i];
         for(int j = i+1; j < galaxies.size(); j++){
             Galaxy b = galaxies[j];

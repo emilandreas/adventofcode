@@ -67,6 +67,9 @@
         "xutility": "cpp",
         "numeric": "cpp",
         "ranges": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "deque": "cpp",
+        "execution": "cpp",
+        "queue": "cpp"
     }
 }
