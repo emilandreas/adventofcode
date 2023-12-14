@@ -85,13 +85,13 @@ int64_t countPermuts2(std::string fullCond, std::vector<int64_t> groups){
             std::string restCond = fullCond.substr(nextStartI);
             auto subGroups = std::vector<int64_t>(groups.begin()+1, groups.end());
             auto hash = hashArgs(restCond, subGroups);
-            // if(MEMO.contains(hash))
-            //     count += MEMO[hash];
-            // else{
-            int64_t res = countPermuts2(restCond, subGroups);
-            MEMO[hash] = res;
-            count += res;
-            // }
+            if(MEMO.contains(hash))
+                count += MEMO[hash];
+            else{
+                int64_t res = countPermuts2(restCond, subGroups);
+                MEMO[hash] = res;
+                count += res;
+            }
 
         }
     }
@@ -213,18 +213,15 @@ void prune(std::string & cond, std::vector<int64_t> & groups){
 }
 
 void task2(){
-    auto lines = readFile("input.txt");
+    auto lines = readFile("inputTest.txt");
     int64_t sum = 0;
     int64_t index = 0;
 
-    sum = std::transform_reduce(std::execution::par, lines.begin(), lines.end(), (int64_t)0, std::plus{}, [&](auto &l){
+    sum = std::transform_reduce(std::execution::seq, lines.begin(), lines.end(), (int64_t)0, std::plus{}, [&](auto &l){
         std::stringstream ss {l};
         std::string conditions, groupsString;
         ss >> conditions >> groupsString;
         auto groups = split(groupsString, ',');
-
-        // std::string newCond = conditions;  
-        // std::vector<int64_t> newGroups = groups;
 
         std::string newCond = "";
         std::vector<int64_t> newGroups{};
@@ -237,7 +234,7 @@ void task2(){
         }
         std::cout << "newCond: " << newCond << std::endl;
 
-        // prune(newCond, newGroups);
+        prune(newCond, newGroups);
         int64_t temp = countPermuts2(newCond, newGroups);
 
         // int64_t temp = countPermuts(0, newCond, newGroups, 0, "");
